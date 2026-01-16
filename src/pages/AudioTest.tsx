@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Volume2, ArrowRight } from 'lucide-react';
+import { Volume2, ArrowRight, Ear } from 'lucide-react';
 
 export default function AudioTest() {
   const navigate = useNavigate();
@@ -21,33 +21,31 @@ export default function AudioTest() {
 
         {/* LEFT COLUMN: Instructions & Audio Trigger */}
         <div className="flex flex-col items-start space-y-10 order-2 lg:order-1">
-          <div className="flex items-center gap-4 bg-white/40 backdrop-blur-md p-2 pr-6 rounded-full border border-white shadow-sm">
-            <div className="w-12 h-12 bg-soft-blue rounded-full flex items-center justify-center text-white shadow-inner">
-              <span className="text-xl">🎧</span>
-            </div>
-            <div>
-              <h2 className="text-sm font-bold text-soft-blue uppercase tracking-wider">Audio Check</h2>
-              <p className="text-soft-blue/60 font-medium text-xs">Waiting for sound...</p>
-            </div>
+          {/* Context Label */}
+          <div className="flex items-center gap-3 px-4 py-2 border-l-4 border-prof-orange bg-white/50">
+            <Ear className="w-5 h-5 text-prof-orange" />
+            <span className="text-sm font-semibold text-prof-blue uppercase tracking-widest">Auditory Processing</span>
           </div>
 
-          <h1 className="text-5xl lg:text-7xl font-bold text-soft-blue tracking-tight leading-none">
-            Listen & <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-soft-blue to-soft-lavender">choose comfortably.</span>
-          </h1>
+          <div className="space-y-2">
+            <h1 className="text-4xl lg:text-6xl font-light text-prof-blue tracking-tight">
+              Listen and <br />
+              <span className="font-bold">identify.</span>
+            </h1>
+            <p className="text-prof-blue/60 text-lg">
+              Screening for auditory reception and word discrimination.
+            </p>
+          </div>
 
-          <p className="text-xl text-soft-blue/70 max-w-md font-medium">
-            Press the button to hear a gentle sound.
-          </p>
-
-          {/* Giant Speaker Button */}
+          {/* Speaker Button */}
           <motion.button
             onClick={playSound}
-            whileTap={{ scale: 0.95 }}
-            className={`w-full max-w-sm aspect-video rounded-[2.5rem] bg-white/60 border border-white flex items-center justify-center group transition-all shadow-xl hover:shadow-2xl hover:translate-y-[-2px] relative overflow-hidden`}
+            whileTap={{ scale: 0.98 }}
+            className={`w-full max-w-sm aspect-video rounded-2xl bg-white border border-prof-blue/10 flex items-center justify-center group transition-all shadow-lg hover:shadow-xl hover:border-prof-blue/30 relative overflow-hidden`}
           >
-            <div className={`relative z-10 p-8 rounded-full transition-all duration-500 ${isPlaying ? 'bg-soft-lavender text-white scale-110 shadow-lg' : 'bg-soft-sky text-soft-blue shadow-md group-hover:scale-110'}`}>
-              <Volume2 className="w-16 h-16" />
+            <div className="absolute inset-0 bg-prof-sky opacity-20 group-hover:opacity-30 transition-opacity" />
+            <div className={`relative z-10 p-8 rounded-full transition-all duration-300 ${isPlaying ? 'bg-prof-orange text-white scale-110 shadow-lg' : 'bg-white text-prof-blue shadow-md border border-prof-blue/10'}`}>
+              <Volume2 className="w-12 h-12" />
             </div>
           </motion.button>
 
@@ -55,16 +53,16 @@ export default function AudioTest() {
 
         {/* RIGHT COLUMN: The Game Grid */}
         <div className="order-1 lg:order-2 h-full flex flex-col justify-center gap-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
             {words.map((word) => (
               <motion.button
                 key={word}
                 onClick={() => setSelectedWord(word)}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className={`p-8 rounded-3xl text-2xl font-bold transition-all border border-white shadow-lg ${selectedWord === word
-                    ? 'bg-gradient-to-br from-soft-blue to-soft-lavender text-white ring-4 ring-white/50'
-                    : 'glass-panel text-soft-blue hover:bg-white'
+                className={`p-8 rounded-xl text-xl font-medium transition-all border ${selectedWord === word
+                  ? 'bg-prof-orange text-white border-prof-orange shadow-lg'
+                  : 'bg-white text-prof-blue border-prof-blue/10 hover:border-prof-blue hover:bg-prof-sky/30'
                   }`}
               >
                 {word}
@@ -75,12 +73,12 @@ export default function AudioTest() {
           <button
             onClick={() => navigate('/test/handwriting')}
             disabled={!selectedWord}
-            className={`w-full py-6 rounded-3xl text-xl font-bold border border-white shadow-xl transition-all flex items-center justify-center gap-4 ${selectedWord
-                ? 'bg-gradient-to-r from-soft-blue to-soft-lavender text-white hover:scale-[1.01] hover:shadow-2xl'
-                : 'bg-white/30 text-soft-blue/30 cursor-not-allowed shadow-none'
+            className={`w-full py-5 rounded-full text-lg font-semibold border transition-all flex items-center justify-center gap-4 ${selectedWord
+              ? 'bg-prof-orange text-white border-prof-orange shadow-lg hover:-translate-y-0.5'
+              : 'bg-transparent text-prof-blue/40 border-prof-blue/10 cursor-not-allowed'
               }`}
           >
-            Next Test <ArrowRight className="w-6 h-6" />
+            Proceed to Motor Assessment <ArrowRight className="w-5 h-5" />
           </button>
         </div>
 

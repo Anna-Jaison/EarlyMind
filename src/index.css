@@ -3,90 +3,87 @@
 @theme {
   --font-outfit: 'Outfit', sans-serif;
 
-  /* Soft Gradient Palette */
-  --soft-cream: #FFFCF2;
-  --soft-green: #D1D84E;
-  /* Apple Green */
-  --soft-sky: #E6EAFF;
-  /* Sky */
-  --soft-lavender: #A99BF7;
-  /* Lavender */
-  --soft-orange: #E88E3D;
-  /* Orange */
-  --soft-blue: #2B2675;
-  /* Deep Blue */
+  /* Professional Elegant Palette */
+  --prof-cream: #FFFCF2;
+  --prof-blue: #2B2675;
+  /* Deep Blue - Primary */
+  --prof-green: #D1D84E;
+  /* Apple Green - Energy Start */
+  --prof-orange: #E88E3D;
+  /* Orange - Energy End */
+  --prof-lavender: #A99BF7;
+  /* Lavender - Accents */
+  --prof-sky: #E6EAFF;
 }
 
 :root {
   font-family: var(--font-outfit);
   line-height: 1.5;
-  font-weight: 400;
+  font-weight: 300;
+  /* Lighter weight for elegance */
 
   color-scheme: light;
-  /* Fallback */
-  background-color: var(--soft-cream);
-  color: var(--soft-blue);
+  background-color: var(--prof-cream);
+  color: var(--prof-blue);
 }
 
-/* Global Animated Soft Mesh Gradient */
+/* Base Body Styles */
 body {
-  background: linear-gradient(120deg,
-      var(--soft-sky),
-      var(--soft-lavender),
-      var(--soft-cream),
-      var(--soft-sky));
-  background-size: 400% 400%;
-  animation: gradientBG 20s ease infinite;
-  min-height: 100vh;
+  background-color: var(--prof-cream);
+  color: var(--prof-blue);
 }
 
-@keyframes gradientBG {
-  0% {
-    background-position: 0% 50%;
-  }
+/* Utilities */
+.text-balance {
+  text-wrap: balance;
+}
 
-  50% {
-    background-position: 100% 50%;
-  }
+/* Gradients */
+.bg-gradient-energy {
+  background-image: linear-gradient(135deg, var(--prof-green), var(--prof-orange));
+}
 
-  100% {
-    background-position: 0% 50%;
-  }
+.text-gradient-energy {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(135deg, var(--prof-green), var(--prof-orange));
+}
+
+/* Decorative Patterns */
+.pattern-dots {
+  background-image: radial-gradient(var(--prof-lavender) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+/* Button Base Styles */
+.btn-primary {
+  background-color: var(--prof-orange);
+  color: white;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(43, 38, 117, 0.3);
 }
 
 /* Float Animations */
 @keyframes float {
   0% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0px);
   }
 
   50% {
-    transform: translateY(-12px) rotate(1deg);
+    transform: translateY(-10px);
   }
 
   100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0px);
   }
 }
 
 .animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Glass Utility */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 8px 32px 0 rgba(43, 38, 117, 0.05);
-}
-
-/* Vivid Button Gradient Utility */
-.btn-vivid-orange {
-  background: linear-gradient(135deg, var(--soft-orange), var(--soft-green));
-}
-
-.btn-vivid-blue {
-  background: linear-gradient(135deg, var(--soft-blue), var(--soft-lavender));
+  animation: float 8s ease-in-out infinite;
 }
