@@ -1,18 +1,26 @@
 
-import Header from './components/Header'
-import Hero from './components/Hero'
-import Features from './components/Features'
-import Footer from './components/Footer'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import LandingPage from './pages/LandingPage';
+import ReadingTest from './pages/ReadingTest';
+import AudioTest from './pages/AudioTest';
+import HandwritingTest from './pages/HandwritingTest';
+import Scorecard from './pages/Scorecard';
 
 function App() {
   return (
-    <div className="bg-gray-900 min-h-screen">
-      <Header />
-      <Hero />
-      <Features />
-      <Footer />
-    </div>
-  )
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/test/reading" element={<ReadingTest />} />
+          <Route path="/test/audio" element={<AudioTest />} />
+          <Route path="/test/handwriting" element={<HandwritingTest />} />
+          <Route path="/scorecard" element={<Scorecard />} />
+        </Routes>
+      </Layout>
+    </Router>
+  );
 }
 
-export default App
+export default App;

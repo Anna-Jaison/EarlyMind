@@ -1,25 +1,92 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
+@theme {
+  --font-outfit: 'Outfit', sans-serif;
+
+  /* Soft Gradient Palette */
+  --soft-cream: #FFFCF2;
+  --soft-green: #D1D84E;
+  /* Apple Green */
+  --soft-sky: #E6EAFF;
+  /* Sky */
+  --soft-lavender: #A99BF7;
+  /* Lavender */
+  --soft-orange: #E88E3D;
+  /* Orange */
+  --soft-blue: #2B2675;
+  /* Deep Blue */
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font-outfit);
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color-scheme: light;
+  /* Fallback */
+  background-color: var(--soft-cream);
+  color: var(--soft-blue);
 }
 
+/* Global Animated Soft Mesh Gradient */
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  background: linear-gradient(120deg,
+      var(--soft-sky),
+      var(--soft-lavender),
+      var(--soft-cream),
+      var(--soft-sky));
+  background-size: 400% 400%;
+  animation: gradientBG 20s ease infinite;
   min-height: 100vh;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Float Animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Glass Utility */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 32px 0 rgba(43, 38, 117, 0.05);
+}
+
+/* Vivid Button Gradient Utility */
+.btn-vivid-orange {
+  background: linear-gradient(135deg, var(--soft-orange), var(--soft-green));
+}
+
+.btn-vivid-blue {
+  background: linear-gradient(135deg, var(--soft-blue), var(--soft-lavender));
 }
