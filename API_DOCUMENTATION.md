@@ -98,6 +98,49 @@ Submits the history of user responses to analyze performance and generate the ne
 }
 ```
 
+
+---
+
+### 3. Dysgraphia Screening
+Uploads a handwriting image for dysgraphia risk analysis.
+
+- **URL**: `/dysgraphia`
+- **Method**: `POST`
+- **Content-Type**: `multipart/form-data`
+- **Body**: Form data with a single file field.
+
+#### Request Body Schema
+| Field | Type | Description |
+|---|---|---|
+| `image` | File | The handwriting image file (jpg, png, etc.). |
+
+#### Response Example
+```json
+{
+  "median_letter_height": 34.0,
+  "spacing_cv": 0.0,
+  "size_cv": 0.173,
+  "ocr_score": 100.0,
+  "risk_score": 0.0,
+  "verdict": "LOW RISK",
+  "word_boxes": [
+    {"x": 94, "y": 154, "w": 168, "h": 55},
+    {"x": 272, "y": 154, "w": 186, "h": 55}
+  ]
+}
+```
+
+#### Response Fields
+| Field | Type | Description |
+|---|---|---|
+| `risk_score` | Float | Calculated risk score based on metrics (0-10+). |
+| `verdict` | String | "LOW RISK", "MODERATE RISK", or "HIGH RISK". |
+| `spacing_cv` | Float | Coefficient of variation for word spacing. High values indicate irregular spacing. |
+| `size_cv` | Float | Coefficient of variation for letter size. High values indicate irregular sizes. |
+| `median_letter_height` | Float | Median height of detected letters in pixels. |
+| `ocr_score` | Float | OCR confidence score (0-100). Lower scores imply illegibility. |
+| `word_boxes` | Array | List of detected word bounding boxes `{x, y, w, h}` for visualization. |
+
 ---
 
 ## Audio Handling
@@ -114,3 +157,4 @@ Submits the history of user responses to analyze performance and generate the ne
 
 ## CORS
 CORS is enabled for all routes, allowing requests from any frontend origin (`*`).
+

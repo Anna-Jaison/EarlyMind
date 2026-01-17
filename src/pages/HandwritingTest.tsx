@@ -1,12 +1,59 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Upload, Camera, ArrowRight, PenTool } from 'lucide-react';
 
 export default function HandwritingTest() {
    const navigate = useNavigate();
+   const [isUploading, setIsUploading] = React.useState(false);
+   const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file) {
+         handleFileUpload(file);
+      }
+   };
+
+   const handleFileUpload = async (file: File) => {
+      setIsUploading(true);
+      const formData = new FormData();
+      formData.append('image', file);
+
+      try {
+         const response = await fetch('http://localhost:5000/dysgraphia', {
+            method: 'POST',
+            body: formData,
+         });
+
+         if (!response.ok) {
+            throw new Error('Upload failed');
+         }
+
+         const data = await response.json();
+         localStorage.setItem('dysgraphia_result', JSON.stringify(data));
+         navigate('/scorecard');
+      } catch (error) {
+         console.error('Error uploading file:', error);
+         alert('Failed to analyze handwriting. Please try again.');
+      } finally {
+         setIsUploading(false);
+      }
+   };
+
+   const triggerFileInput = () => {
+      fileInputRef.current?.click();
+   };
 
    return (
       <section className="w-full flex-grow flex items-center min-h-[85vh] py-12">
+         <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileSelect}
+            className="hidden"
+            accept="image/*"
+         />
          <div className="w-full max-w-[1400px] mx-auto px-8 md:px-12 lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
 
             {/* LEFT COLUMN: Instructions & Word */}
@@ -36,8 +83,12 @@ export default function HandwritingTest() {
                </div>
 
                <div className="flex gap-4 w-full">
-                  <button className="flex-1 py-4 rounded-full bg-transparent border border-prof-blue text-prof-blue font-medium hover:bg-prof-blue/5 transition-all flex items-center justify-center gap-3">
-                     <Upload className="w-4 h-4" /> Upload Sample
+                  <button
+                     onClick={triggerFileInput}
+                     disabled={isUploading}
+                     className="flex-1 py-4 rounded-full bg-transparent border border-prof-blue text-prof-blue font-medium hover:bg-prof-blue/5 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                  >
+                     <Upload className="w-4 h-4" /> {isUploading ? 'Analyzing...' : 'Upload Sample'}
                   </button>
                   <button
                      onClick={() => navigate('/scorecard')}
@@ -53,16 +104,14 @@ export default function HandwritingTest() {
                <motion.div
                   className="relative w-full aspect-[3/4] rounded-3xl border-2 border-dashed border-prof-blue/20 bg-white/40 flex flex-col items-center justify-center gap-8 cursor-pointer hover:border-prof-blue/40 hover:bg-white/60 transition-all group overflow-hidden"
                   whileHover={{ scale: 1.005 }}
-                  onClick={() => {
-                     setTimeout(() => navigate('/scorecard'), 1500);
-                  }}
+                  onClick={triggerFileInput}
                >
 
                   <div className="p-8 bg-white rounded-full shadow-lg group-hover:scale-110 transition-all border border-prof-blue/5">
                      <Camera className="w-12 h-12 text-prof-blue" />
                   </div>
                   <div className="text-center space-y-1">
-                     <p className="text-2xl font-semibold text-prof-blue">Capture Input</p>
+                     <p className="text-2xl font-semibold text-prof-blue">{isUploading ? 'Processing...' : 'Capture Input'}</p>
                      <p className="text-base text-prof-blue/50">Align handwriting within frame</p>
                   </div>
                </motion.div>

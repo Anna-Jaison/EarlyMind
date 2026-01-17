@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, Ear, Loader2 } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 // Types based on API Documentation
 interface Trial {
@@ -54,7 +55,7 @@ export default function AudioTest() {
   useEffect(() => {
     const fetchBaseline = async () => {
       try {
-        const res = await fetch('http://localhost:5000/baseline');
+        const res = await fetch(`${API_BASE_URL}/baseline`);
         if (!res.ok) throw new Error('Failed to fetch baseline');
         const data: Trial[] = await res.json();
 
@@ -169,7 +170,7 @@ export default function AudioTest() {
 
   const fetchNextAdaptive = async (currentResponses: ResponseItem[]) => {
     try {
-      const res = await fetch('http://localhost:5000/next-trial', {
+      const res = await fetch(`${API_BASE_URL}/next-trial`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ responses: currentResponses })
