@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Upload, Camera, ArrowRight, PenTool } from 'lucide-react';
 import { API_BASE_URL } from '../config';
+import { useTestContext } from '../context/TestContext';
 
 export default function HandwritingTest() {
    const navigate = useNavigate();
+   const { setDysgraphiaResult } = useTestContext();
    const [isUploading, setIsUploading] = React.useState(false);
    const fileInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -32,7 +34,7 @@ export default function HandwritingTest() {
          }
 
          const data = await response.json();
-         localStorage.setItem('dysgraphia_result', JSON.stringify(data));
+         setDysgraphiaResult(data);
          navigate('/scorecard');
       } catch (error) {
          console.error('Error uploading file:', error);

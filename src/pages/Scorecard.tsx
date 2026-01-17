@@ -21,7 +21,7 @@ interface EvaluationResult {
 
 export default function Scorecard() {
   const navigate = useNavigate();
-  const { audioTestResults, readingTestResults } = useTestContext();
+  const { audioTestResults, readingTestResults, dysgraphiaResult } = useTestContext();
   const [result, setResult] = useState<EvaluationResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -84,11 +84,10 @@ export default function Scorecard() {
       value: Math.round(result.dyslexia_probability * 100),
       status: result.risk_level
     },
-    // We can add more metrics from features if desired, e.g.
     {
-      label: "Phoneme Accuracy",
-      value: Math.round((result.features.phoneme_accuracy || 0) * 100),
-      status: (result.features.phoneme_accuracy > 0.8) ? "Optimal" : "Needs Review"
+      label: "Dysgraphia Assessment",
+      value: dysgraphiaResult ? dysgraphiaResult.verdict : "N/A", // This might need UI adjustment as it's not a %
+      status: dysgraphiaResult?.verdict || "Pending"
     },
   ];
 
@@ -156,11 +155,11 @@ export default function Scorecard() {
             >
               <div className="flex justify-between items-center">
                 <span className="font-medium text-prof-blue/70 text-lg">{score.label}</span>
-                <span className="px-3 py-1 bg-prof-sky/50 rounded text-xs font-bold text-prof-blue uppercase">{score.status}</span>
               </div>
 
               <div className="flex items-end gap-4">
-                <span className="font-bold text-prof-blue text-4xl">{score.value}%</span>
+                <span className="font-bold text-prof-blue text-4xl">{typeof score.value === 'number' ? `${score.value}%` : score.value}</span>
+                {/* 
                 <div className="flex-grow h-2 bg-prof-cream rounded-full mb-2">
                   <motion.div
                     initial={{ width: 0 }}
@@ -169,6 +168,7 @@ export default function Scorecard() {
                     className="h-full bg-gradient-to-r from-prof-green to-prof-orange rounded-full"
                   />
                 </div>
+                 */}
               </div>
             </motion.div>
           ))}

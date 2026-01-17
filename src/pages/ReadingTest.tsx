@@ -47,6 +47,7 @@ export default function ReadingTest() {
   const [trialCount, setTrialCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [pendingResponse, setPendingResponse] = useState<ResponseItem | null>(null);
 
   // Speech State
   const [isListening, setIsListening] = useState(false);
@@ -152,11 +153,12 @@ export default function ReadingTest() {
       reaction_time: reactionTime
     };
 
-    const updatedResponses = [...responses, newResponse];
-    setResponses(updatedResponses);
+    // const updatedResponses = [...responses, newResponse];
+    // setResponses(updatedResponses);
 
     setFeedbackStatus(isCorrect ? 'success' : 'error');
-    await proceedToNextTrial(updatedResponses);
+    // await proceedToNextTrial(updatedResponses);
+    setPendingResponse(newResponse);
   };
 
   const handleSpeechResult = async (spokenWord: string) => {
@@ -185,12 +187,21 @@ export default function ReadingTest() {
     // Feedback UI
     setFeedbackStatus(isCorrect ? 'success' : 'error');
 
-    // Delay slightly to show feedback before loading next
-    setTimeout(async () => {
-      setFeedbackStatus('idle');
-      setTranscript("");
-      await proceedToNextTrial(updatedResponses);
-    }, 1000);
+    // Store as pending, do NOT proceed yet
+    setPendingResponse(newResponse);
+  };
+
+  const handleSubmit = async () => {
+    if (!pendingResponse) return;
+
+    const updatedResponses = [...responses, pendingResponse];
+    setResponses(updatedResponses);
+
+    setPendingResponse(null);
+    setTranscript("");
+    setFeedbackStatus('idle');
+
+    await proceedToNextTrial(updatedResponses);
   };
 
   const proceedToNextTrial = async (currentResponses: ResponseItem[]) => {
@@ -316,37 +327,46 @@ export default function ReadingTest() {
           </div>
 
           {/* Interaction Button */}
-          <button
-            onClick={startListening}
-            disabled={isListening || isLoading}
-            className={`
-                group relative px-10 py-6 rounded-full text-xl font-semibold flex items-center gap-4 transition-all shadow-lg overflow-hidden
-                ${isListening
-                ? 'bg-red-50 text-red-500 border-2 border-red-100'
-                : 'bg-prof-orange text-white hover:shadow-xl hover:-translate-y-1'
-              }
-                ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}
-            `}
-          >
-            {/* Pulse ring for listening */}
-            {isListening && (
-              <span className="absolute inset-0 rounded-full border-4 border-red-200 animate-ping opacity-75"></span>
-            )}
+          {pendingResponse ? (
+            <button
+              onClick={handleSubmit}
+              className="group relative px-10 py-6 rounded-full text-xl font-semibold flex items-center gap-4 transition-all shadow-lg overflow-hidden bg-prof-green text-white hover:shadow-xl hover:-translate-y-1"
+            >
+              Submit Response
+            </button>
+          ) : (
+            <button
+              onClick={startListening}
+              disabled={isListening || isLoading}
+              className={`
+                    group relative px-10 py-6 rounded-full text-xl font-semibold flex items-center gap-4 transition-all shadow-lg overflow-hidden
+                    ${isListening
+                  ? 'bg-red-50 text-red-500 border-2 border-red-100'
+                  : 'bg-prof-orange text-white hover:shadow-xl hover:-translate-y-1'
+                }
+                    ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}
+                `}
+            >
+              {/* Pulse ring for listening */}
+              {isListening && (
+                <span className="absolute inset-0 rounded-full border-4 border-red-200 animate-ping opacity-75"></span>
+              )}
 
-            {isLoading ? (
-              <Loader2 className="w-6 h-6 animate-spin" />
-            ) : isListening ? (
-              <>
-                <Mic className="w-6 h-6 animate-pulse" />
-                Listening...
-              </>
-            ) : (
-              <>
-                <Mic className="w-6 h-6" />
-                Tap to Record
-              </>
-            )}
-          </button>
+              {isLoading ? (
+                <Loader2 className="w-6 h-6 animate-spin" />
+              ) : isListening ? (
+                <>
+                  <Mic className="w-6 h-6 animate-pulse" />
+                  Listening...
+                </>
+              ) : (
+                <>
+                  <Mic className="w-6 h-6" />
+                  Tap to Record
+                </>
+              )}
+            </button>
+          )}
 
           {feedbackStatus === 'error' && (
             <div className="flex flex-col gap-2 mt-4">
