@@ -1,13 +1,95 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { RotateCcw, FileText, CheckCircle2 } from 'lucide-react';
+import { RotateCcw, FileText, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
+import { useTestContext } from '../context/TestContext';
+import { API_BASE_URL } from '../config';
+import { useState, useEffect } from 'react';
+
+// API Response Interface
+interface EvaluationResult {
+  risk_level: string;
+  dyslexia_probability: number;
+  features: {
+    avg_word_time_ms: number;
+    reading_speed_wpm: number;
+    word_error_rate: number;
+    phoneme_accuracy: number;
+    confusable_error_rate: number;
+    // ... any other features
+  };
+}
 
 export default function Scorecard() {
   const navigate = useNavigate();
+  const { audioTestResults, readingTestResults } = useTestContext();
+  const [result, setResult] = useState<EvaluationResult | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchEvaluation = async () => {
+      try {
+        setLoading(true);
+        // If we have no data, maybe we are debugging or user skipped
+        // For now, proceed. API might handle empty arrays or we wrap in try/catch
+
+        const payload = {
+          test1_data: audioTestResults,
+          test2_data: readingTestResults
+        };
+
+        const res = await fetch(`${API_BASE_URL}/evaluate_dyslexia`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) throw new Error("Evaluation failed");
+
+        const data: EvaluationResult = await res.json();
+        setResult(data);
+      } catch (err) {
+        console.error(err);
+        setError("Could not generate report. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvaluation();
+  }, [audioTestResults, readingTestResults]);
+
+  if (loading) {
+    return (
+      <div className="w-full h-[85vh] flex flex-col items-center justify-center gap-4">
+        <Loader2 className="w-12 h-12 text-prof-orange animate-spin" />
+        <p className="text-prof-blue/60 text-lg">Analyzing cognitive patterns...</p>
+      </div>
+    );
+  }
+
+  if (error || !result) {
+    return (
+      <div className="w-full h-[85vh] flex flex-col items-center justify-center gap-4">
+        <AlertCircle className="w-12 h-12 text-red-500" />
+        <p className="text-red-500 text-lg">{error || "No data available"}</p>
+        <button onClick={() => navigate('/')} className="px-6 py-2 bg-prof-blue text-white rounded-lg">Return Home</button>
+      </div>
+    );
+  }
 
   const scores = [
-    { label: "Dyslexia Screening Score", value: 89, status: "Optimal" },
-    { label: "Dysgraphia Assessment Score", value: 88, status: "High" },
+    {
+      label: "Dyslexia Risk Probability",
+      value: Math.round(result.dyslexia_probability * 100),
+      status: result.risk_level
+    },
+    // We can add more metrics from features if desired, e.g.
+    {
+      label: "Phoneme Accuracy",
+      value: Math.round((result.features.phoneme_accuracy || 0) * 100),
+      status: (result.features.phoneme_accuracy > 0.8) ? "Optimal" : "Needs Review"
+    },
   ];
 
   return (
@@ -25,10 +107,10 @@ export default function Scorecard() {
               <CheckCircle2 className="w-4 h-4" /> Analysis Complete
             </div>
             <h1 className="text-5xl lg:text-7xl font-light text-prof-blue tracking-tight mb-4">
-               Cognitive Profile <br /><span className="font-bold">Generated.</span>
+              Cognitive Profile <br /><span className="font-bold">Generated.</span>
             </h1>
             <p className="text-xl text-prof-blue/70">
-              Screening data indicates strong developmental markers.
+              Screening data indicates {result?.risk_level.toLowerCase()} markers.
             </p>
           </motion.div>
 
@@ -39,7 +121,13 @@ export default function Scorecard() {
               <h3 className="font-bold text-prof-blue text-lg">Detailed Observation</h3>
             </div>
             <p className="text-lg text-prof-blue/80 leading-relaxed font-light">
-              "Subject demonstrates high-efficiency visual decoding. Dyslexia risk markers are minimal. Dysgraphia screening shows excellent motor control with consistent stroke patterns."
+              "Subject demonstrates an average reading speed of {Math.round(result?.features.reading_speed_wpm || 0)} WPM.
+              {(result?.features.confusable_error_rate || 0) > 0.2
+                ? " Significant struggles noted with confusable letters (b/d/p/q)."
+                : " Visual decoding of similar letters appears stable."}
+              {(result?.features.word_error_rate || 0) > 0.3
+                ? " High word substitution rate suggests phonological processing challenges."
+                : " Word recognition accuracy is within expected ranges."}"
             </p>
           </div>
 

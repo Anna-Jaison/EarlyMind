@@ -31,8 +31,11 @@ interface AnalysisResponse {
   };
 }
 
+import { useTestContext } from '../context/TestContext';
+
 export default function AudioTest() {
   const navigate = useNavigate();
+  const { setAudioTestResults } = useTestContext();
   const [isPlaying, setIsPlaying] = useState(false);
 
   // Test State
@@ -59,10 +62,16 @@ export default function AudioTest() {
         if (!res.ok) throw new Error('Failed to fetch baseline');
         const data: Trial[] = await res.json();
 
-        if (data.length > 0) {
+        // Sanitize audio URLs to use API_BASE_URL if they are localhost
+        const sanitizedData = data.map(item => ({
+          ...item,
+          audio_url: item.audio_url.replace('http://localhost:5000', API_BASE_URL)
+        }));
+
+        if (sanitizedData.length > 0) {
           // Take the first one as current, rest as queue
-          setCurrentTrial(data[0]);
-          setBaselineQueue(data.slice(1));
+          setCurrentTrial(sanitizedData[0]);
+          setBaselineQueue(sanitizedData.slice(1));
           startTimeRef.current = Date.now();
         } else {
           setError("No baseline data received");
@@ -181,7 +190,12 @@ export default function AudioTest() {
       const data: AnalysisResponse = await res.json();
 
       if (data.next_trial) {
-        setCurrentTrial(data.next_trial);
+        // Sanitize audio URL
+        const nextTrial = {
+          ...data.next_trial,
+          audio_url: data.next_trial.audio_url.replace('http://localhost:5000', API_BASE_URL)
+        };
+        setCurrentTrial(nextTrial);
         setIsLoading(false);
       } else {
         // No next trial returned (or analysis returned), end test
@@ -196,6 +210,7 @@ export default function AudioTest() {
 
   const finishTest = () => {
     // Navigate to next test or results
+    setAudioTestResults(responses);
     navigate('/test/handwriting');
   };
 

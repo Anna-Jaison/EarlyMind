@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Upload, Camera, ArrowRight, PenTool } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 export default function HandwritingTest() {
    const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function HandwritingTest() {
       formData.append('image', file);
 
       try {
-         const response = await fetch('http://localhost:5000/dysgraphia', {
+         const response = await fetch(`${API_BASE_URL}/dysgraphia`, {
             method: 'POST',
             body: formData,
          });

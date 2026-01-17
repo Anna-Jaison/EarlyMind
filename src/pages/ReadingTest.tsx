@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, Loader2, Volume2, AlertCircle } from 'lucide-react';
+import { Mic, Loader2, AlertCircle, Eye } from 'lucide-react';
 import { API_BASE_URL } from '../config';
 
 // --- Types ---
@@ -34,8 +34,11 @@ declare global {
   }
 }
 
+import { useTestContext } from '../context/TestContext';
+
 export default function ReadingTest() {
   const navigate = useNavigate();
+  const { setReadingTestResults } = useTestContext();
 
   // --- State ---
   const [currentTrial, setCurrentTrial] = useState<Trial | null>(null);
@@ -256,7 +259,8 @@ export default function ReadingTest() {
   };
 
   const finishTest = () => {
-    navigate('/test/handwriting'); // Or results
+    setReadingTestResults(responses);
+    navigate('/test/audio'); // Proceed to Audio Test
   };
 
   if (error) {
