@@ -139,10 +139,32 @@ export default function ReadingTest() {
     }
   };
 
-  const stopListening = () => {
+  const stopListening = async () => {
     if (recognitionRef.current && isListening) {
       recognitionRef.current.stop();
       setIsListening(false);
+
+      // If manual stop and no response yet, treat as giving up/incorrect
+      // And AUTO-ADVANCE as per user request
+      if (!pendingResponse) {
+        const endTime = Date.now();
+        const reactionTime = (endTime - startTimeRef.current) / 1000;
+
+        const newResponse: ResponseItem = {
+          text_word: currentTrial?.text_word || "",
+          selected: transcript || "manual_stop_no_speech",
+          correct: false,
+          reaction_time: reactionTime
+        };
+
+        const updatedResponses = [...responses, newResponse];
+        setResponses(updatedResponses);
+        setTranscript("");
+        setFeedbackStatus('idle');
+
+        // Proceed immediately
+        await proceedToNextTrial(updatedResponses);
+      }
     }
   };
 
