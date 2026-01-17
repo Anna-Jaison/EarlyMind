@@ -277,9 +277,9 @@ export default function ReadingTest() {
   if (error) {
     return (
       <div className="w-full h-screen flex flex-col items-center justify-center gap-4">
-        <AlertCircle className="w-12 h-12 text-red-500" />
-        <p className="text-red-500 text-xl">{error}</p>
-        <button onClick={() => window.location.reload()} className="px-4 py-2 bg-prof-blue text-white rounded">Retry</button>
+        <AlertCircle className="w-12 h-12 text-blue-900" />
+        <p className="text-blue-900 text-xl">{error}</p>
+        <button onClick={() => window.location.reload()} className="px-4 py-2 bg-prof-blue text-blue-900 rounded">Retry</button>
       </div>
     );
   }
@@ -314,7 +314,7 @@ export default function ReadingTest() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className={`text-2xl font-serif italic ${feedbackStatus === 'success' ? 'text-prof-green' : feedbackStatus === 'error' ? 'text-red-400' : 'text-prof-blue/80'}`}
+                  className={`text-2xl font-serif italic ${feedbackStatus === 'success' ? 'text-prof-green' : feedbackStatus === 'error' ? 'text-violet-400' : 'text-prof-blue/80'}`}
                 >
                   "{transcript}"
                 </motion.div>
@@ -330,7 +330,7 @@ export default function ReadingTest() {
           {pendingResponse ? (
             <button
               onClick={handleSubmit}
-              className="group relative px-10 py-6 rounded-full text-xl font-semibold flex items-center gap-4 transition-all shadow-lg overflow-hidden bg-prof-green text-white hover:shadow-xl hover:-translate-y-1"
+              className="group relative px-10 py-6 rounded-full text-xl font-semibold flex items-center gap-4 transition-all shadow-lg overflow-hidden bg-prof-green text-blue-950 hover:shadow-xl hover:-translate-y-1 border-2 border-blue-950"
             >
               Submit Response
             </button>
@@ -339,17 +339,17 @@ export default function ReadingTest() {
               onClick={startListening}
               disabled={isListening || isLoading}
               className={`
-                    group relative px-10 py-6 rounded-full text-xl font-semibold flex items-center gap-4 transition-all shadow-lg overflow-hidden
+                    group relative px-10 py-6 rounded-full text-xl font-semibold flex items-center gap-4 transition-all shadow-lg overflow-hidden border-2 border-b-blue-950
                     ${isListening
-                  ? 'bg-red-50 text-red-500 border-2 border-red-100'
-                  : 'bg-prof-orange text-white hover:shadow-xl hover:-translate-y-1'
+                  ? 'bg-blue-50-50 text-blue-950-500 border-2 border-blue-950'
+                  : 'bg-prof-blue text-blue-950 hover:shadow-xl hover:-translate-y-1'
                 }
                     ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}
                 `}
             >
               {/* Pulse ring for listening */}
               {isListening && (
-                <span className="absolute inset-0 rounded-full border-4 border-red-200 animate-ping opacity-75"></span>
+                <span className="absolute inset-0 rounded-full border-4 border-blue-950 animate-ping opacity-75"></span>
               )}
 
               {isLoading ? (
@@ -370,7 +370,7 @@ export default function ReadingTest() {
 
           {feedbackStatus === 'error' && (
             <div className="flex flex-col gap-2 mt-4">
-              <p className="text-red-400 text-sm">Microphone error. Manual Override:</p>
+              <p className="text-blue-950 text-sm">Microphone error. Manual Override:</p>
               <div className="flex gap-4">
                 <button
                   onClick={() => handleManualResult(true)}
@@ -391,7 +391,7 @@ export default function ReadingTest() {
         </div>
 
         {/* RIGHT COLUMN: Target Word Display */}
-        <div className="order-1 lg:order-2 h-full flex flex-col justify-center items-center min-h-[400px]">
+        <div className="order-1 lg:order-2 h-full flex flex-col justify-center items-center min-h-[400px] bg-white border-2 rounded-4xl ">
           <AnimatePresence mode="wait">
             {isLoading ? (
               <motion.div

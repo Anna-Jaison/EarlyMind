@@ -51,17 +51,8 @@ export default function LandingPage() {
           </div>
 
           {/* Footer Proof */}
-          <div className="flex items-center gap-8 pt-8 w-full border-t border-prof-blue/10">
-            <div>
-              <p className="text-3xl font-bold text-prof-blue">94%</p>
-              <p className="text-xs text-prof-blue/60 uppercase tracking-wider mt-1">Screening Accuracy</p>
-            </div>
-            <div className="w-px h-10 bg-prof-blue/10" />
-            <div>
-              <p className="text-3xl font-bold text-prof-blue">15k+</p>
-              <p className="text-xs text-prof-blue/60 uppercase tracking-wider mt-1">Assessments</p>
-            </div>
-          </div>
+        
+        
         </motion.div>
 
         {/* Right Column: Professional Illustration */}
