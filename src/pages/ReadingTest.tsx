@@ -276,8 +276,8 @@ export default function ReadingTest() {
         {/* LEFT COLUMN: Instructions & Feedback */}
         <div className="flex flex-col items-start space-y-10 order-2 lg:order-1">
           <div className="flex items-center gap-3 px-4 py-2 border-l-4 border-prof-green bg-white/50">
-            <Volume2 className="w-5 h-5 text-prof-green" />
-            <span className="text-sm font-semibold text-prof-blue uppercase tracking-widest">Reading Fluency</span>
+            <Eye className="w-5 h-5 text-prof-green" />
+            <span className="text-sm font-semibold text-prof-blue uppercase tracking-widest">DYSLEXIA SCREENING</span>
           </div>
 
           <div className="space-y-2">

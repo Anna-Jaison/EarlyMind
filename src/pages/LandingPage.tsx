@@ -25,8 +25,8 @@ export default function LandingPage() {
           {/* Main Headline */}
           <div className="space-y-6">
             <h1 className="text-5xl lg:text-7xl font-light text-prof-blue leading-[1.1] tracking-tight">
-              AI-Powered Screening for <br />
-              <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-prof-blue to-prof-lavender">
+              AI-Powered Screening for{' '}
+              <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#2B2675] to-[#A99BF7]">
                 Dyslexia & Dysgraphia.
               </span>
             </h1>
@@ -39,7 +39,7 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row gap-5 w-full pt-4">
             <motion.button
               onClick={() => navigate('/test/reading')}
-              className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 bg-prof-orange rounded-full text-white text-lg font-semibold shadow-xl hover:shadow-2xl hover:scale-105 transition-all min-w-[240px]"
+              className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 bg-creame border-2 border-prof-blue rounded-full text-blue-400-600 text-lg font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all min-w-[240px]"
               whileTap={{ scale: 0.98 }}
             >
               <span>Begin Assessment</span> <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

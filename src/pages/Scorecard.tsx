@@ -6,9 +6,8 @@ export default function Scorecard() {
   const navigate = useNavigate();
 
   const scores = [
-    { label: "Decode Velocity", value: 92, status: "Optimal" },
-    { label: "Auditory Reception", value: 85, status: "Normal" },
-    { label: "Motor Consistency", value: 88, status: "High" },
+    { label: "Dyslexia Screening Score", value: 89, status: "Optimal" },
+    { label: "Dysgraphia Assessment Score", value: 88, status: "High" },
   ];
 
   return (
@@ -26,7 +25,7 @@ export default function Scorecard() {
               <CheckCircle2 className="w-4 h-4" /> Analysis Complete
             </div>
             <h1 className="text-5xl lg:text-7xl font-light text-prof-blue tracking-tight mb-4">
-              Cognitive Profile <br /><span className="font-bold">Generated.</span>
+               Cognitive Profile <br /><span className="font-bold">Generated.</span>
             </h1>
             <p className="text-xl text-prof-blue/70">
               Screening data indicates strong developmental markers.

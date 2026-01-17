@@ -235,10 +235,10 @@ export default function AudioTest() {
             onClick={playSound}
             whileTap={{ scale: 0.98 }}
             disabled={isLoading || !currentTrial}
-            className={`w-full max-w-sm aspect-video rounded-2xl bg-white border border-prof-blue/10 flex items-center justify-center group transition-all shadow-lg hover:shadow-xl hover:border-prof-blue/30 relative overflow-hidden`}
+            className={`w-full max-w-sm aspect-video rounded-2xl bg-white border-2 border-prof-orange flex items-center justify-center group transition-all shadow-xl hover:shadow-2xl hover:scale-[1.02] relative overflow-hidden`}
           >
-            <div className="absolute inset-0 bg-prof-sky opacity-20 group-hover:opacity-30 transition-opacity" />
-            <div className={`relative z-10 p-8 rounded-full transition-all duration-300 ${isPlaying ? 'bg-prof-orange text-white scale-110 shadow-lg' : 'bg-white text-prof-blue shadow-md border border-prof-blue/10'}`}>
+            <div className="absolute inset-0 bg-prof-orange/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className={`relative z-10 p-8 rounded-full transition-all duration-300 ${isPlaying ? 'bg-prof-orange text-white scale-110 shadow-lg' : 'bg-prof-orange/10 text-prof-orange shadow-md border-2 border-prof-orange'}`}>
               <Volume2 className="w-12 h-12" />
             </div>
           </motion.button>

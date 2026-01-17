@@ -22,8 +22,8 @@ export default function Layout({ children }: LayoutProps) {
         <header className="w-full bg-prof-cream/90 backdrop-blur-md border-b border-prof-blue/5 sticky top-0 z-50">
           <div className="w-full max-w-[1400px] mx-auto px-8 py-6 flex justify-between items-center">
             <div className="flex items-center gap-3 group cursor-pointer">
-              <div className="p-2 bg-prof-blue rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300">
-                <BrainCircuit className="w-6 h-6 text-white" />
+              <div className="p-2 bg-white border-2 border-prof-blue rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300">
+                <BrainCircuit className="w-6 h-6 text-prof-blue" />
               </div>
               <h1 className="text-2xl font-light tracking-wide text-prof-blue">
                 Early<span className="font-bold">Mind</span>
