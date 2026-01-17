@@ -139,6 +139,13 @@ export default function ReadingTest() {
     }
   };
 
+  const stopListening = () => {
+    if (recognitionRef.current && isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    }
+  };
+
   // Helper for manual override
   const handleManualResult = async (isCorrect: boolean) => {
     if (!currentTrial) return;
@@ -336,28 +343,23 @@ export default function ReadingTest() {
             </button>
           ) : (
             <button
-              onClick={startListening}
-              disabled={isListening || isLoading}
+              onClick={isListening ? stopListening : startListening}
+              disabled={isLoading}
               className={`
                     group relative px-10 py-6 rounded-full text-xl font-semibold flex items-center gap-4 transition-all shadow-lg overflow-hidden border-2 border-b-blue-950
                     ${isListening
-                  ? 'bg-blue-50-50 text-blue-950-500 border-2 border-blue-950'
+                  ? 'bg-blue-50-50 text-blue-950-500 border-2 border-blue-950 animate-pulse'
                   : 'bg-prof-blue text-blue-950 hover:shadow-xl hover:-translate-y-1'
                 }
                     ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}
                 `}
             >
-              {/* Pulse ring for listening */}
-              {isListening && (
-                <span className="absolute inset-0 rounded-full border-4 border-blue-950 animate-ping opacity-75"></span>
-              )}
-
               {isLoading ? (
                 <Loader2 className="w-6 h-6 animate-spin" />
               ) : isListening ? (
                 <>
-                  <Mic className="w-6 h-6 animate-pulse" />
-                  Listening...
+                  <Mic className="w-6 h-6 animate-pulse text-red-500" />
+                  Stop Recording
                 </>
               ) : (
                 <>
