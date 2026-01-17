@@ -14,13 +14,13 @@ export default function HandwritingTest() {
                {/* Context Label */}
                <div className="flex items-center gap-3 px-4 py-2 border-l-4 border-prof-lavender bg-white/50">
                   <PenTool className="w-5 h-5 text-prof-lavender" />
-                  <span className="text-sm font-semibold text-prof-blue uppercase tracking-widest">Fine Motor & Dysgraphia Assessment</span>
+                  <span className="text-sm font-semibold text-prof-blue uppercase tracking-widest">DYSGRAPHIA ASSESSMENT</span>
                </div>
 
                <div className="space-y-2">
                   <h1 className="text-4xl lg:text-6xl font-light text-prof-blue tracking-tight">
                      Replicate the <br />
-                     <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-prof-green to-prof-orange">target sequence.</span>
+                     <span className="font-bold text-blue bg-clip-text bg-gradient-to-r from-prof-green to-prof-orange">target sequence.</span>
                   </h1>
                   <p className="text-prof-blue/60 text-lg">
                      Analysis of spatial planning, stroke consistency, and motor control.
@@ -41,7 +41,7 @@ export default function HandwritingTest() {
                   </button>
                   <button
                      onClick={() => navigate('/scorecard')}
-                     className="flex-1 py-4 rounded-full bg-prof-orange text-white font-semibold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-3"
+                     className="flex-1 py-4 rounded-full bg-prof-blue border-2 border-prof-blue   text-blue font-semibold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-3"
                   >
                      Generate Report <ArrowRight className="w-4 h-4" />
                   </button>
@@ -49,21 +49,21 @@ export default function HandwritingTest() {
             </div>
 
             {/* RIGHT COLUMN: Camera Zone */}
-            <div className="order-1 lg:order-2 h-full min-h-[500px] flex items-center">
+            <div className="order-1 lg:order-2 h-full flex flex-col justify-center items-center">
                <motion.div
-                  className="relative w-full aspect-[3/4] rounded-3xl border-2 border-dashed border-prof-blue/20 bg-white/40 flex flex-col items-center justify-center gap-8 cursor-pointer hover:border-prof-blue/40 hover:bg-white/60 transition-all group overflow-hidden"
+                  className="relative w-full max-w-sm aspect-square rounded-3xl border-2 border-dashed border-prof-blue/20 bg-white/40 flex flex-col items-center justify-center gap-6 cursor-pointer hover:border-prof-blue/40 hover:bg-white/60 transition-all group overflow-hidden"
                   whileHover={{ scale: 1.005 }}
                   onClick={() => {
                      setTimeout(() => navigate('/scorecard'), 1500);
                   }}
                >
 
-                  <div className="p-8 bg-white rounded-full shadow-lg group-hover:scale-110 transition-all border border-prof-blue/5">
-                     <Camera className="w-12 h-12 text-prof-blue" />
+                  <div className="p-6 bg-white rounded-full shadow-lg group-hover:scale-110 transition-all border border-prof-blue/5">
+                     <Camera className="w-10 h-10 text-prof-blue" />
                   </div>
                   <div className="text-center space-y-1">
-                     <p className="text-2xl font-semibold text-prof-blue">Capture Input</p>
-                     <p className="text-base text-prof-blue/50">Align handwriting within frame</p>
+                     <p className="text-xl font-semibold text-prof-blue">Capture Input</p>
+                     <p className="text-sm text-prof-blue/50">Align handwriting within frame</p>
                   </div>
                </motion.div>
             </div>

@@ -45,7 +45,7 @@ export default function ReadingTest() {
           {/* Context Label */}
           <div className="flex items-center gap-3 px-4 py-2 border-l-4 border-prof-green bg-white/50">
             <Eye className="w-5 h-5 text-prof-green" />
-            <span className="text-sm font-semibold text-prof-blue uppercase tracking-widest">Visual Decoding Analysis</span>
+            <span className="text-sm font-semibold text-prof-blue uppercase tracking-widest">DYSLEXIA SCREENING</span>
           </div>
 
           <div className="space-y-2">
@@ -77,7 +77,7 @@ export default function ReadingTest() {
           {/* Controls */}
           <div className="flex flex-wrap gap-5 w-full pt-8">
             <button
-              className={`h-20 w-20 rounded-full flex items-center justify-center border border-prof-blue/20 transition-all shadow-sm ${isListening ? 'bg-prof-lavender text-white animate-pulse' : 'bg-white text-prof-blue hover:bg-prof-blue hover:text-white'}`}
+              className={`h-15 w-20 rounded-full flex items-center justify-center border border-prof-blue/20 transition-all shadow-sm ${isListening ? 'bg-prof-lavender text-white animate-pulse' : 'bg-white text-prof-blue hover:bg-prof-blue hover:text-white'}`}
               onClick={() => setIsListening(!isListening)}
             >
               <Mic className="w-6 h-6" />
@@ -85,7 +85,9 @@ export default function ReadingTest() {
 
             <button
               onClick={handleNext}
-              className="flex-grow h-20 bg-prof-orange rounded-full text-white text-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-4 px-8"
+              className="flex-grow h-15 bg-prof-blue border-1 border-prof-blue  rounded-full text-blue-950 text-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-4 px-8"
+
+
             >
               Record & Continue <CheckCircle className="w-5 h-5" />
             </button>
